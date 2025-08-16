@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 
 import mlflow
 import json
-
+import mlflow.sklearn
 import pandas as pd
 import numpy as np
 from sklearn.compose import ColumnTransformer
