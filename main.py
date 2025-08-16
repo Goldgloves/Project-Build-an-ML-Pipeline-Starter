@@ -60,22 +60,38 @@ def go(config: DictConfig):
                 "input_artifact":"sample.csv:latest",
                 "output_artifact":"clean_sample.csv",
                 "output_type":"clean_sample",
-                "output_description":"blah blah blah",
+                "output_description":"Cleaned dataset",
                 "min_price":config["etl"]["min_price"],
                 "max_price":config["etl"]["max_price"]
             },)
 
 
         if "data_check" in active_steps:
-            ##################
-            # Implement here #
-            ##################
+            _ = mlflow.run(
+                os.path.join(hydra.utils.get_original_cwd(), "src", "data_check"),
+                entry_point="main",
+                parameters={
+                    "csv": "clean_sample.csv:latest",
+                    "ref": "sample.csv:latest",
+                    "kl_threshold": config["data_check"]["kl_threshold"],
+                    "min_price": config["etl"]["min_price"],
+                    "max_price": config["etl"]["max_price"],
+                },
+            )
             pass
 
         if "data_split" in active_steps:
-            ##################
-            # Implement here #
-            ##################
+            _ = mlflow.run(
+                f"{config['main']['components_repository']}/train_val_test_split",
+                "main",
+                parameters={
+                    "input": "clean_sample.csv:latest",
+                    "test_size": config["modeling"]["test_size"],
+                    "random_seed": config["modeling"]["random_seed"],
+                    "stratify_by": config["modeling"]["stratify_by"],
+                },
+            )
+            
             pass
 
         if "train_random_forest" in active_steps:
@@ -87,10 +103,19 @@ def go(config: DictConfig):
 
             # NOTE: use the rf_config we just created as the rf_config parameter for the train_random_forest
             # step
-
-            ##################
-            # Implement here #
-            ##################
+           #NEW
+            _ = mlflow.run(
+                os.path.join(hydra.utils.get_original_cwd(), "src", "train_random_forest"),
+                entry_point="main",
+                parameters={
+                    "trainval_artifact": "trainval_data.csv:latest",
+                    "val_size": config["modeling"]["val_size"],
+                    "random_seed": config["modeling"]["random_seed"],
+                    "stratify_by": config["modeling"]["stratify_by"],
+                    "rf_config": rf_config,
+                    "output_artifact": "random_forest_export",
+                },
+            )
 
             pass
 
