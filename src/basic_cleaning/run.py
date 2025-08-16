@@ -14,12 +14,11 @@ logger = logging.getLogger()
 # DO NOT MODIFY
 def go(args):
 
-    run = wandb.init(job_type="basic_cleaning")
+    run = wandb.init(job_type="basic_cleaning", save_code=True)
     run.config.update(args)
 
     # Download input artifact. This will also log that this script is using this
     
-    run = wandb.init(project="nyc_airbnb", group="cleaning", save_code=True)
     artifact_local_path = run.use_artifact(args.input_artifact).file()
     df = pd.read_csv(artifact_local_path)
     # Drop outliers
@@ -28,7 +27,7 @@ def go(args):
     idx = df['price'].between(min_price, max_price)
     df = df[idx].copy()
     # Convert last_review to datetime
-    df['last_review'] = pd.to_datetime(df['last_review'])
+    df['last_review'] = pd.to_datetime(df['last_review'], errors="coerce")
 
     idx = df['longitude'].between(-74.25, -73.50) & df['latitude'].between(40.5, 41.2)
     df = df[idx].copy()
@@ -42,7 +41,8 @@ def go(args):
      description=args.output_description,
  )
     artifact.add_file("clean_sample.csv")
-    run.log_artifact(artifact)
+    run.log_artifact(artifact, aliases=["latest"])
+    run.finish()
 
 
 # TODO: In the code below, fill in the data type for each argumemt. The data type should be str, float or int. 
