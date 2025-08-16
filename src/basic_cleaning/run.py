@@ -54,42 +54,42 @@ if __name__ == "__main__":
     parser.add_argument(
         "--input_artifact", 
         type = str,
-        help = "blah blah blah",
+        help = "Input artifact: sample.csv:latest",
         required = True
     )
 
     parser.add_argument(
         "--output_artifact", 
         type = str,
-        help = "blah blah blah",
+        help = "Output artifact: clean_sample.csv",
         required = True
     )
 
     parser.add_argument(
         "--output_type", 
         type = str,
-        help = "blah blah blah",
+        help = "type of output artifact",
         required = True
     )
 
     parser.add_argument(
         "--output_description", 
         type = str,
-        help = "blah blah blah",
+        help = "cleaned output artifact",
         required = True
     )
 
     parser.add_argument(
         "--min_price", 
         type = float,
-        help = "blah blah blah",
+        help = "minimum price",
         required = True
     )
 
     parser.add_argument(
         "--max_price",
         type = float,
-        help = "blah blah blah",
+        help = "maximum price",
         required = True
     )
 
