@@ -33,16 +33,7 @@ def go(args):
         random_state=args.random_seed,
         stratify=df[args.stratify_by] if args.stratify_by != 'none' else None,
     )
-    stratify_series = (
-+        df[args.stratify_by] if (args.stratify_by != 'none' and args.stratify_by in df.columns) else None
-+    )
-+    trainval, test = train_test_split(
-+        df,
-+        test_size=args.test_size,
-+        random_state=args.random_seed,
-+        stratify=stratify_series,
-+    )
-
+    
     # Save to output files
     for df, k in zip([trainval, test], ['trainval', 'test']):
         logger.info(f"Uploading {k}_data.csv dataset")
