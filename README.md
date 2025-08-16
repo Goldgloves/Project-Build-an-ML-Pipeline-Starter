@@ -8,7 +8,7 @@ In this project you will build such a pipeline.
 
 ## Link to project
 
-* https://github.com/Goldgloves/Project-Build-an-ML-Pipeline-Starter/blob/1.0.0/README.md
+* https://github.com/Goldgloves/Project-Build-an-ML-Pipeline-Starter
 
 ## Table of contents
 
