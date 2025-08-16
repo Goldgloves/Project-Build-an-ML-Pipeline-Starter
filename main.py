@@ -78,7 +78,7 @@ def go(config: DictConfig):
                     "max_price": config["etl"]["max_price"],
                 },
             )
-            pass
+            
 
         if "data_split" in active_steps:
             _ = mlflow.run(
@@ -92,7 +92,7 @@ def go(config: DictConfig):
                 },
             )
             
-            pass
+            
 
         if "train_random_forest" in active_steps:
 
@@ -113,14 +113,15 @@ def go(config: DictConfig):
                     "random_seed": config["modeling"]["random_seed"],
                     "stratify_by": config["modeling"]["stratify_by"],
                     "rf_config": rf_config,
-                    "output_artifact": "random_forest_export",
                     "max_tfidf_features": config["modeling"]["max_tfidf_features"],
+                    "output_artifact": "random_forest_export"
                 },
             )
 
-            pass
+            
 
         if "test_regression_model" in active_steps:
+            
             _ = mlflow.run(
                 f"{config['main']['components_repository']}/test_regression_model",
                 "main",
@@ -130,7 +131,7 @@ def go(config: DictConfig):
                 },
             )
             
-            pass
+            
 
 
 if __name__ == "__main__":
